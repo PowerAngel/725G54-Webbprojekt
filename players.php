@@ -9,7 +9,7 @@
 
 <head>
 
-    <title>DotA 2 - start page</title>
+    <title>DotA 2 - players</title>
     <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
 	<link media="screen" rel="stylesheet" href="stylesheets/stylesheet.css"/>
 
