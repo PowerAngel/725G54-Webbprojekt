@@ -41,9 +41,12 @@ h2 {
 	font-weight: 600;
 }
 
-h3{
+h3, p, table, td, tr{
 color: #666;
+}
 
+img{
+    margin-left: 75px;
 }
 
 .center {

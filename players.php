@@ -29,9 +29,39 @@
 	</p>
 	</div>
 
-<?php	
-	$query = "SELECT * FROM player ORDER BY Name ASC";
-			$result = mysql_query($query) or die(mysql_error());			
+	<div="content">
+
+<h3>How would you like to sort the players?</h3>
+	<form action="" method="post">
+		
+		<ol>
+              	<li><input type="submit" name="submit" value="Name" />
+				<input type="submit" name="submit" value="Team" />
+              	<input type="submit" name="submit" value="Position" /></li>
+		
+		</ol>	
+	</form>
+
+
+	<?php
+
+	if ($_POST['submit'] == 'Name') 
+	{
+		$query = "SELECT * FROM player ORDER BY Name ASC";
+	}
+
+	else if($_POST['submit'] == 'Team')
+	{
+		$query = "SELECT * FROM player ORDER BY Team ASC";
+	}
+
+	else if($_POST['submit'] == 'Position')
+	{
+		$query = "SELECT * FROM player ORDER BY Position ASC";
+	}
+		
+		$result = mysql_query($query) or die(mysql_error());			
+
 
 			while($row = mysql_fetch_array($result))
 			{
@@ -39,11 +69,13 @@
 				$name = $row['Name'];
 				$team = $row['Team'];
 				$position = $row['Position'];
+				$playerimage = $row['PlayerImage'];
 
-				print "<table><tr><td>Name: $name </td><td> Team: $team </td><td> Position: $position</td></tr></table>";
+				?><p><?php echo "<table><tr><td> <img src= '.$playerimage' alt='DotA2icon'/></td><td> Name: $name  </td><td> Team: $team</td><td> Position: $position </td></tr></table>"; ?></p><?php
 			}
 
 ?>
 
+	</div>
 </div>
 </body>

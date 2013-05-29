@@ -43,8 +43,9 @@
 		    
 		<form action="" method="post" id="AddHero">
 		<ol>
-			<li><label>Name: <input type="text" name="name" class="required"/></label></li>
-			<li><label>Main attribute: <input type="text" name="mainattribute" class="required"/></label></li>
+			<li><label><p>Name: <input type="text" name="name" class="required"/></p></label></li>
+			<li><label><p>Main attribute: <input type="text" name="mainattribute" class="required"/></p></label></li>
+			<li><label><p>URL to picture: <input type="text" name="heroimage" class="required"/></p></label></li>
               	<li><input type="submit" name="submit" value="Skicka" /></li>
 		</ol>
 		</form>
@@ -70,15 +71,30 @@
 		{
 			$hasError = true;
 		}
+		else if((trim($_POST['mainattribute']) != 'strength') && (trim($_POST['mainattribute']) != 'intelligence') && (trim($_POST['mainattribute']) != 'agility'))
+		{
+			$hasError = true;
+		}
 		else
 		{
 			$mainattribute = $_POST['mainattribute'];
 			$safemainattribute = mysql_real_escape_string($mainattribute);
 		}
 		
+
+		if(trim($_POST['heroimage']) == '')
+		{
+			$hasError = true;
+		}
+		else
+		{
+			$heroimage = $_POST['heroimage'];
+			$safeheroimage = mysql_real_escape_string($heroimage);
+		}
+
 		if(!$hasError)
 		{
-			$query = "INSERT INTO hero (Name, Mainattribute) VALUES ('$safename', '$safemainattribute')";
+			$query = "INSERT INTO hero (Name, Mainattribute, HeroImage) VALUES ('$safename', '$safemainattribute', '$safeheroimage')";
 			mysql_query($query)or die(mysql_error());
 			?><h3><?php	print "Hero added!"; ?></h3><?php
 		}
@@ -89,7 +105,49 @@
 		
 
      }
-	
+
+     ?>
+	<h3>How would you like to sort the heroes?</h3>
+	<form action="" method="post">
+		
+		<ol>
+              	<li><input type="submit" name="submit" value="Name" />
+		
+              	<input type="submit" name="submit" value="Mainattribute" /></li>
+		
+		</ol>	
+	</form>
+
+
+	<?php
+
+	if ($_POST['submit'] == 'Name') 
+	{
+		$query = "SELECT * FROM hero ORDER BY Name ASC";
+	}
+
+	else if($_POST['submit'] == 'Mainattribute')
+	{
+		$query = "SELECT * FROM hero ORDER BY Mainattribute ASC";
+	}
+		
+
+
+		$result = mysql_query($query) or die(mysql_error());			
+
+
+
+
+			while($row = mysql_fetch_array($result))
+			{
+				$id = $row['ID'];
+				$name = $row['Name'];
+				$mainattribute = $row['Mainattribute'];
+				$heroimage = $row['HeroImage'];
+
+				?><p><?php print "<table><tr><td> <img src= '.$heroimage' alt='DotA2icon'/></td><td> Name: $name  </td><td> - Main attribute: $mainattribute</td></tr></table>"; ?></p><?php
+			}
+
 ?>
 </div>
 </body>

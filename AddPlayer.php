@@ -43,9 +43,10 @@
 		    
 		<form action="" method="post" id="AddPlayer">
 		<ol>
-			<li><label>Name: <input type="text" name="name" class="required"/></label></li>
-			<li><label>Team: <input type="text" name="team" class="required"/></label></li>
-			<li><label>Position: <input type="text" name="position" class="number required" range="0, 5"/></label></li>
+			<li><label><p>Name: <input type="text" name="name" class="required"/></p></label></li>
+			<li><label><p>Team: <input type="text" name="team" class="required"/></p></label></li>
+			<li><label><P>Position: <input type="text" name="position" class="number required" range="0, 5"/></p></label></li>
+			<li><label><p>URL to picture: <input type="text" name="playerimage" class="required"/></label></li>
               	<li><input type="submit" name="submit" value="Skicka" /></li>
 		</ol>
 		</form>
@@ -63,7 +64,8 @@
 		else
 		{
 			$name = $_POST['name'];
-			$safename = mysql_real_escape_string($name);
+			$safename = htmlspecialchars($name);
+			$moresafename = mysql_real_escape_string($safename);
 		}
 
 
@@ -74,7 +76,8 @@
 		else
 		{
 			$team = $_POST['team'];
-			$safeteam = mysql_real_escape_string($team);
+			$safeteam = htmlspecialchars($team);
+			$moresafeteam = mysql_real_escape_string($safeteam);
 		}
 
 		if(trim($_POST['position']) == '')
@@ -89,16 +92,27 @@
 		{
 			$hasError = true;
 		}
-		
 		else
 		{
 			$position = $_POST['position'];
-			$safeposition = mysql_real_escape_string($position);
+			$safeposition = htmlspecialchars($position);
+			$moresafeposition = mysql_real_escape_string($safeposition);
+		}
+
+		if(trim($_POST['playerimage']) == '')
+		{
+			$hasError = true;
+		}
+		else
+		{
+			$playerimage = $_POST['playerimage'];
+			$safeplayerimage = htmlspecialchars($playerimage);
+			$moresafeplayerimage = mysql_real_escape_string($safeplayerimage);
 		}
 		
 		if(!$hasError)
 		{
-			$query = "INSERT INTO player (Name, Team, Position) VALUES ('$safename', '$safeteam', '$safeposition')";
+			$query = "INSERT INTO player (Name, Team, Position, PlayerImage) VALUES ('$moresafename', '$moresafeteam', '$moresafeposition', '$moresafeplayerimage')";
 			mysql_query($query)or die(mysql_error());
 			?><h3><?php	print "Player added!"; ?></h3><?php
 		}

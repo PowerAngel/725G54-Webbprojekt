@@ -72,7 +72,7 @@
 		}
 		else
 		{
-			?><h3><?php	print "Please fill the textboxes correctly. Position has to be 1-5"; ?></h3><?php
+			?><h3><?php	print "Please fill the textboxes correctly."; ?></h3><?php
 		}
 		
 
