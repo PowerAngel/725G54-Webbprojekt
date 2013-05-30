@@ -14,6 +14,7 @@
 	<link media="screen" rel="stylesheet" href="stylesheets/stylesheet.css"/>
 
 </head>
+
 <body>
 
 <div id="container">
@@ -40,7 +41,7 @@
               	<input type="submit" name="submit" value="Position" /></li>
 		
 		</ol>	
-	</form>
+	
 
 
 	<?php
@@ -61,9 +62,6 @@
 	}
 		
 		$result = mysql_query($query) or die(mysql_error());
-
-
-
 
 
 			while($row = mysql_fetch_array($result))
@@ -115,11 +113,88 @@
 
 				}
 
-				?><p><?php echo "<table><tr><td> <img src= '.$playerimage' alt='DotA2icon'/></td><td> Name: $name  </td><td> Team: $team</td><td> Position: $position </td><td><img src= '.$TopPlayerImage0' alt='DotA2icon'/></td><td><img src= '.$TopPlayerImage1' alt='DotA2icon'/></td><td><img src= '.$TopPlayerImage2' alt='DotA2icon'/></td></tr></table>"; ?></p><?php
-			}
+				?><p><?php echo "<table><tr><td> <img src= '.$playerimage' alt='DotA2icon'/></td><td> Name: $name  </td><td> Team: $team</td><td> Position: $position </td><td><img src= '.$TopPlayerImage0' alt='DotA2icon'/></td><td><img src= '.$TopPlayerImage1' alt='DotA2icon'/></td><td><img src= '.$TopPlayerImage2' alt='DotA2icon'/></td></tr></table>"; ?></p>
 
-?>
 
+							
+				<ol>
+					<li><label><p>Name: </p><input type="text" name="username" class="required"/></label></li>
+					<li><label><p>Comment: </p><input type="text" name="usercomment" class="required"/></label></li>
+					<li><input type="submit" name="send" value="Send" /></li>
+				</ol>
+
+
+				<?php
+				if ($_POST['send'] == "Send") 
+							{
+							
+								if(trim($_POST['username']) == '')
+								{
+									$hasError = true;
+								}
+								else{
+									$username = $_POST['username'];
+									$usersafename = htmlspecialchars($username);
+									$usermoresafename = mysql_real_escape_string($usersafename);
+								}
+
+								if(trim($_POST['usercomment']) == ''){
+									$hasError = true;
+								}
+								else{
+									$comment = $_POST['usercomment'];
+									$safecomment = htmlspecialchars($comment);
+									$moresafecomment = mysql_real_escape_string($safecomment);
+								}
+
+								
+						        if(!$hasError){
+						        	echo"hej!";
+									$query = "INSERT INTO comments (Playername, Name, Comment) VALUES ('$Playername', '$usermoresafename', '$moresafecomment')";
+									mysql_query($query) or die(mysql_error());
+								}
+
+					        	else 
+					        	{
+									print "Vänligen fyll i alla fält";
+								}
+					    	}
+
+				
+
+
+
+
+
+
+
+
+							$query = "SELECT * FROM comments ORDER BY Time DESC";
+							$result = mysql_query($query);
+							while($row = mysql_fetch_array($result))
+							{
+								$Name = $row['Name'];
+								$Comment = $row['Comment'];
+								$Time = $row['Time'];
+								$Id = $row['ID'];
+						
+								
+								print"<table><tr><td>$Time -</td><td> $Name - </td><td>$Comment</td>
+								<td>
+								<form action='' method='post'>
+									<div>
+									<input type='hidden' name='action' value='delete'/>
+									<input type='hidden' name='id' value='$id'/>
+									<input type='submit' name='submit' value='Ta bort'/>
+									</div>
+								</form>
+								</td>
+								</tr></table>";
+							}
+				}
+
+				?>
+</form>
 	</div>
 </div>
 </body>
