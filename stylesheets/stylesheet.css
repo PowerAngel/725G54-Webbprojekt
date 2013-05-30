@@ -46,7 +46,8 @@ color: #666;
 }
 
 img{
-    margin-left: 75px;
+    margin-left: 5px;
+    border-radius: 5px;
 }
 
 .center {

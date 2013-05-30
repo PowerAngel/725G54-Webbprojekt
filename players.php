@@ -60,7 +60,10 @@
 		$query = "SELECT * FROM player ORDER BY Position ASC";
 	}
 		
-		$result = mysql_query($query) or die(mysql_error());			
+		$result = mysql_query($query) or die(mysql_error());
+
+
+
 
 
 			while($row = mysql_fetch_array($result))
@@ -71,7 +74,48 @@
 				$position = $row['Position'];
 				$playerimage = $row['PlayerImage'];
 
-				?><p><?php echo "<table><tr><td> <img src= '.$playerimage' alt='DotA2icon'/></td><td> Name: $name  </td><td> Team: $team</td><td> Position: $position </td></tr></table>"; ?></p><?php
+				$TopPlayerImage0 = "/images/dota2.png";
+				$TopPlayerImage1 = "/images/dota2.png";
+				$TopPlayerImage2 = "/images/dota2.png";
+
+
+
+				$query2 = "SELECT * FROM topplayed WHERE Playername='$name'";
+				$result2 = mysql_query($query2) or die(mysql_error());
+
+
+				$i = 0;
+				while($row = mysql_fetch_assoc($result2))
+				{
+					$playername = $row['Playername'];
+					$heroname = $row['Heroname'];
+
+					$query3 = "SELECT * FROM hero WHERE Name='$heroname'";
+					$result3 = mysql_query($query3) or die(mysql_error());
+
+					while($row = mysql_fetch_assoc($result3))
+					{
+						if($i == 0)
+						{
+							$TopPlayerImage0 = $row['HeroImage'];
+						}
+
+						if($i == 1)
+						{
+							$TopPlayerImage1 = $row['HeroImage'];
+						}
+
+						if($i == 2)
+						{
+							$TopPlayerImage2 = $row['HeroImage'];
+						}
+
+						$i++;
+					}
+
+				}
+
+				?><p><?php echo "<table><tr><td> <img src= '.$playerimage' alt='DotA2icon'/></td><td> Name: $name  </td><td> Team: $team</td><td> Position: $position </td><td><img src= '.$TopPlayerImage0' alt='DotA2icon'/></td><td><img src= '.$TopPlayerImage1' alt='DotA2icon'/></td><td><img src= '.$TopPlayerImage2' alt='DotA2icon'/></td></tr></table>"; ?></p><?php
 			}
 
 ?>

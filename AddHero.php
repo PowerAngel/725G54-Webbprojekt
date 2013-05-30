@@ -113,7 +113,7 @@
 		<ol>
               	<li><input type="submit" name="submit" value="Name" />
 		
-              	<input type="submit" name="submit" value="Mainattribute" /></li>
+              	<input type="submit" name="submit" value="Main attribute" /></li>
 		
 		</ol>	
 	</form>
@@ -126,7 +126,7 @@
 		$query = "SELECT * FROM hero ORDER BY Name ASC";
 	}
 
-	else if($_POST['submit'] == 'Mainattribute')
+	else if($_POST['submit'] == 'Main attribute')
 	{
 		$query = "SELECT * FROM hero ORDER BY Mainattribute ASC";
 	}
