@@ -46,6 +46,8 @@
 
 	<?php
 
+	$query = "SELECT * FROM player ORDER BY Name ASC";
+
 	if ($_POST['submit'] == 'Name') 
 	{
 		$query = "SELECT * FROM player ORDER BY Name ASC";
@@ -61,7 +63,7 @@
 		$query = "SELECT * FROM player ORDER BY Position ASC";
 	}
 		
-		$result = mysql_query($query) or die(mysql_error());
+		$result = mysql_query($query) or die ("Error: ". mysql_error(). " with query ". $query);
 
 
 			while($row = mysql_fetch_array($result))
@@ -79,7 +81,7 @@
 
 
 				$query2 = "SELECT * FROM topplayed WHERE Playername='$name'";
-				$result2 = mysql_query($query2) or die(mysql_error());
+				$result2 = mysql_query($query2) or die ("Error: ". mysql_error(). " with query ". $query2);
 
 
 				$i = 0;
@@ -89,7 +91,7 @@
 					$heroname = $row['Heroname'];
 
 					$query3 = "SELECT * FROM hero WHERE Name='$heroname'";
-					$result3 = mysql_query($query3) or die(mysql_error());
+					$result3 = mysql_query($query3) or die ("Error: ". mysql_error(). " with query ". $query3);
 
 					while($row = mysql_fetch_assoc($result3))
 					{
@@ -118,50 +120,13 @@
 
 							
 				<ol>
-					<li><label><p>Name: </p><input type="text" name="username" class="required"/></label></li>
-					<li><label><p>Comment: </p><input type="text" name="usercomment" class="required"/></label></li>
-					<li><input type="submit" name="send" value="Send" /></li>
+					<li><label><p>Name: </p><input type="text" name="$name" class="required"/></label></li>
+					<li><label><p>Comment: </p><input type="text" name="$id" class="required"/></label></li>
+					<li><input type="submit" name="$playername" value="Send" /></li>
 				</ol>
 
 
 				<?php
-							if ($_POST['send'] == "Send") 
-							{
-							
-								if(trim($_POST['username']) == '')
-								{
-									$hasError = true;
-								}
-								else{
-									$username = $_POST['username'];
-									$usersafename = htmlspecialchars($username);
-									$usermoresafename = mysql_real_escape_string($usersafename);
-								}
-
-								if(trim($_POST['usercomment']) == ''){
-									$hasError = true;
-								}
-								else{
-									$comment = $_POST['usercomment'];
-									$safecomment = htmlspecialchars($comment);
-									$moresafecomment = mysql_real_escape_string($safecomment);
-								}
-
-								
-						        if(!$hasError){
-						        	echo"hej!";
-									$querysend = "INSERT INTO comments (Playername, Name, Comment) VALUES ('$Playername', '$usermoresafename', '$moresafecomment')";
-									mysql_query($querysend) or die(mysql_error());
-								}
-
-					        	else 
-					        	{
-									print "Vänligen fyll i alla fält";
-								}
-					    	}
-
-
-
 							$query4 = "SELECT * FROM comments WHERE Playername='$name' ORDER BY Time DESC";
 							$result4 = mysql_query($query4);
 							while($row = mysql_fetch_array($result4))
@@ -184,6 +149,46 @@
 								</td>
 								</tr></table>";
 							}
+
+
+
+							if ($_POST['$playername'] == "Send") 
+							{
+								
+								echo "Hej!";
+								if(trim($_POST['$name']) == '')
+								{
+									$hasError = true;
+								}
+								else
+								{
+									$username = $_POST['$name'];
+									$usersafename = htmlspecialchars($username);
+									$usermoresafename = mysql_real_escape_string($usersafename);
+								}
+
+								if(trim($_POST['$id']) == ''){
+									$hasError = true;
+								}
+								else{
+									$comment = $_POST['$id'];
+									$safecomment = htmlspecialchars($comment);
+									$moresafecomment = mysql_real_escape_string($safecomment);
+								}
+
+								echo "Trollbuild numero ett $Playername $usermoresafename $moresafecomment";
+								
+						        if(!$hasError){
+						        	echo"hej!";
+									$querysend = "INSERT INTO comments (Playername, Name, Comment) VALUES ('$Playername', '$usermoresafename', '$moresafecomment')";
+									mysql_query($querysend) or die ("Error: ". mysql_error(). " with query ". $sql);
+								}
+
+					        	else 
+					        	{
+									print "Vänligen fyll i alla fält";
+								}
+					    	}
 				}
 
 				?>
