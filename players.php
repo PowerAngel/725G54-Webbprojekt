@@ -125,7 +125,7 @@
 
 
 				<?php
-				if ($_POST['send'] == "Send") 
+							if ($_POST['send'] == "Send") 
 							{
 							
 								if(trim($_POST['username']) == '')
@@ -150,8 +150,8 @@
 								
 						        if(!$hasError){
 						        	echo"hej!";
-									$query = "INSERT INTO comments (Playername, Name, Comment) VALUES ('$Playername', '$usermoresafename', '$moresafecomment')";
-									mysql_query($query) or die(mysql_error());
+									$querysend = "INSERT INTO comments (Playername, Name, Comment) VALUES ('$Playername', '$usermoresafename', '$moresafecomment')";
+									mysql_query($querysend) or die(mysql_error());
 								}
 
 					        	else 
@@ -160,18 +160,11 @@
 								}
 					    	}
 
-				
 
 
-
-
-
-
-
-
-							$query = "SELECT * FROM comments ORDER BY Time DESC";
-							$result = mysql_query($query);
-							while($row = mysql_fetch_array($result))
+							$query4 = "SELECT * FROM comments WHERE Playername='$name' ORDER BY Time DESC";
+							$result4 = mysql_query($query4);
+							while($row = mysql_fetch_array($result4))
 							{
 								$Name = $row['Name'];
 								$Comment = $row['Comment'];
