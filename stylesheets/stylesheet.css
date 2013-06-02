@@ -1,11 +1,11 @@
 body{
-	background-color: #000;
+	background-color: #ddd;
 	font-family: Verdana, Arial, "MS Trebuchet", sans-serif;
 }
 
 #container{
 	width: 800px;
-	background-color: #111;
+	background-color: #ddd;
 	margin: 0px auto;
 }
 a{
