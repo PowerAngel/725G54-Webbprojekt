@@ -58,7 +58,7 @@
 				$name = $row['Name'];
 				echo "<option value='{$name}'>$name</option>";
 			}
-
+			
 
 		  	?>
 
@@ -111,6 +111,7 @@
 	 			
 	 			$query = "INSERT INTO topplayed (Playername, Heroname) VALUES ('$playername', '$heroname')";
 	 			mysql_query($query);
+	 			?><p><?php echo "Success!";?></p><?php
 	 		}
 	 		else
 	 		{

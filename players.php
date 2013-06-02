@@ -118,12 +118,18 @@
 				?><p><?php echo "<table><tr><td> <img src= '.$playerimage' alt='DotA2icon'/></td><td> Name: $name  </td><td> Team: $team</td><td> Position: $position </td><td><img src= '.$TopPlayerImage0' alt='DotA2icon'/></td><td><img src= '.$TopPlayerImage1' alt='DotA2icon'/></td><td><img src= '.$TopPlayerImage2' alt='DotA2icon'/></td></tr></table>"; ?></p>
 
 
+				<form action='' method='post'>
 							
 				<ol>
-					<li><label><p>Name: </p><input type="text" name="$name" class="required"/></label></li>
-					<li><label><p>Comment: </p><input type="text" name="$id" class="required"/></label></li>
-					<li><input type="submit" name="$playername" value="Send" /></li>
+					<li><label><p>Name: </p><input type="text" name="name" class="required"/></label></li>
+					<li><label><p>Comment: </p><input type="text" name="comment" class="required"/></label></li>
+						<input type="hidden" name="action" value="send"/>
+						<input type="hidden" name= <?php "$name" ?> value= <?php "$name" ?>/>
+					<li><input type="submit" name="playername" value="Send" /></li>
 				</ol>
+				<?php echo"$name"; ?>
+
+				</form>
 
 
 				<?php
@@ -152,35 +158,40 @@
 
 
 
-							if ($_POST['$playername'] == "Send") 
+
+				}
+
+							if ($_POST['action'] == "send") 
 							{
-								
+
 								echo "Hej!";
-								if(trim($_POST['$name']) == '')
+								if(trim($_POST['name']) == '')
 								{
 									$hasError = true;
 								}
 								else
 								{
-									$username = $_POST['$name'];
+									$username = $_POST['name'];
 									$usersafename = htmlspecialchars($username);
 									$usermoresafename = mysql_real_escape_string($usersafename);
 								}
 
-								if(trim($_POST['$id']) == ''){
+								if(trim($_POST['comment']) == ''){
 									$hasError = true;
 								}
 								else{
-									$comment = $_POST['$id'];
+									$comment = $_POST['comment'];
 									$safecomment = htmlspecialchars($comment);
 									$moresafecomment = mysql_real_escape_string($safecomment);
 								}
 
-								echo "Trollbuild numero ett $Playername $usermoresafename $moresafecomment";
+								$Playername = $_POST['$name'];
+
+								echo "$Playername $usermoresafename $moresafecomment";
 								
 						        if(!$hasError){
 						        	echo"hej!";
-									$querysend = "INSERT INTO comments (Playername, Name, Comment) VALUES ('$Playername', '$usermoresafename', '$moresafecomment')";
+									$querysend = "INSERT INTO comments (Playername, Name, Comment) VALUES ('Faith', '$usermoresafename', '$moresafecomment')";
 									mysql_query($querysend) or die ("Error: ". mysql_error(). " with query ". $sql);
 								}
 
@@ -189,7 +200,6 @@
 									print "Vänligen fyll i alla fält";
 								}
 					    	}
-				}
 
 				?>
 </form>
