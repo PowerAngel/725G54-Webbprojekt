@@ -104,104 +104,120 @@
         </table>
 
         <form action='test-comment.php' method='post'>
-              
-        <ol>
-          <li>
-            <label>
-              Name: <input type="text" name="name" class="required"/>
-            </label>
-          </li>
-          <li>
-            <label>
-              Comment: <input type="text" name="comment" class="required"/>
-            </label>
-          </li>
-          <li>
-            <input type="submit" name="action" value="Send" />
-            <!-- <input type="hidden" name="action" value="send"/> -->
-            <input type="hidden" name="Playername" value="<?php echo $name ?>"/>
-          </li>
-        </ol>
-
-        <?php echo "<p>[DEBUG Spelarnamn: " . $name . "]</p>" ?>
-
+          <ol>
+            <li>
+              <label>
+                Name: <input type="text" name="name" class="required"/>
+              </label>
+            </li>
+            <li>
+              <label>
+                Comment: <input type="text" name="comment" class="required"/>
+              </label>
+            </li>
+            <li>
+              <input type="submit" name="action" value="Send" />
+              <!-- <input type="hidden" name="action" value="send"/> -->
+              <input type="hidden" name="Playername" value="<?php echo $name ?>"/>
+            </li>
+          </ol>
+          <?php echo "<p>[DEBUG Spelarnamn: " . $name . "]</p>" ?>
         </form>
 
-
-            <?php
-              $query4 = "SELECT * FROM comments WHERE Playername='$name' ORDER BY Timestamp DESC";
-              $result4 = mysql_query($query4);
-              while($row = mysql_fetch_array($result4))
-              {
-                $Name = $row['Name'];
-                $Comment = $row['Comment'];
-                $Time = $row['Timestamp'];
-                $Id = $row['ID'];
-            
-                
-                print"<table><tr><td>$Time -</td><td> $Name - </td><td>$Comment</td>
+        <!-- Visa kommentarer + Ta bort -->
+        <?php
+          $query4 = "SELECT * FROM comments WHERE Playername='$name' ORDER BY Timestamp DESC";
+          $result4 = mysql_query($query4);
+          while($row = mysql_fetch_array($result4))
+          {
+            $Name = $row['Name'];
+            $Comment = $row['Comment'];
+            $Time = $row['Timestamp'];
+            $CommentID = $row['CommentID'];
+        ?>                
+          <form action='test-comment.php' method='post'>
+            <table>
+              <tr>
+                <td><?php echo $CommentID ?>. </td>
+                <td><?php echo $Time ?>. </td>
+                <td><?php echo $Name ?>. </td>
+                <td><?php echo $Comment ?></td>
                 <td>
-                <form action='' method='post'>
                   <div>
-                  <input type='hidden' name='action' value='delete'/>
-                  <input type='hidden' name='id' value='$id'/>
-                  <input type='submit' name='submit' value='Ta bort'/>
+                    <input type="hidden" name="CommentID" value="<?php echo $CommentID ?>"/>
+                    <input type="submit" name="action" value="Ta bort"/>
                   </div>
-                </form>
                 </td>
-                </tr></table>";
-              }
-          } // slut på while-loop
-          ?>
+              </tr>
+            </table>
+            </form>
+          <?php 
+          } //Visa kommentarer + Ta bort
+      } // slut på while-loop
+      ?>
 
-            <?php
+      <!-- Ta hand om formulärpostning -->
+      <?php
 
-              if ($_POST['action'] == "Send") 
-              {
-                echo "Action är lika 'Send'";
-                if(trim($_POST['name']) == '')
-                {
-                  echo "<br />";
-                  echo "name är null";
-                  $hasError = true;
-                }
-                else
-                {
-                  $username = $_POST['name'];
-                  $usersafename = htmlspecialchars($username);
-                  $usermoresafename = mysql_real_escape_string($usersafename);
-                }
+        // Lägg till kommentar
+        if ($_POST['action'] == "Send") {
+          echo "Action är lika 'Send'";
+          if(trim($_POST['name']) == '')
+          {
+            echo "<br />";
+            echo "name är null";
+            $hasError = true;
+          }
+          else
+          {
+            $username = $_POST['name'];
+            $usersafename = htmlspecialchars($username);
+            $usermoresafename = mysql_real_escape_string($usersafename);
+          }
 
-                if(trim($_POST['comment']) == ''){
-                  echo "<br />";
-                  echo "comment är null";
-                  $hasError = true;
-                }
-                else{
-                  $comment = $_POST['comment'];
-                  $safecomment = htmlspecialchars($comment);
-                  $moresafecomment = mysql_real_escape_string($safecomment);
-                }
+          if(trim($_POST['comment']) == ''){
+            echo "<br />";
+            echo "comment är null";
+            $hasError = true;
+          }
+          else{
+            $comment = $_POST['comment'];
+            $safecomment = htmlspecialchars($comment);
+            $moresafecomment = mysql_real_escape_string($safecomment);
+          }
 
-                $Playername = $_POST['Playername'];
+          $Playername = $_POST['Playername'];
 
-                echo "<p>";
-                echo "DEBUG: Playername: " . $Playername . ". usermoresafename: " . $usermoresafename . ". moresafecomment: " . $moresafecomment;
-                echo "</p>";
-                
-                    if(!$hasError){
-                      echo"<p>DEBUG <br />";
-                      echo"querysend är: ";
-                      $querysend = "INSERT INTO comments (Playername, Name, Comment) VALUES ('$Playername', '$usermoresafename', '$moresafecomment')";
-                      echo"<br />";
-                      mysql_query($querysend) or die ("SQL-error: " . mysql_error(). " with query ". $sql);
-                      echo"</p>";
-                } else {
-                  echo "<br />";
-                  print "Vänligen fyll i alla fält";
-                  }
-              }
-        ?>
+          echo "<p>";
+          echo "DEBUG: Playername: " . $Playername . ". usermoresafename: " . $usermoresafename . ". moresafecomment: " . $moresafecomment;
+          echo "</p>";
+          
+              if(!$hasError){
+                echo"<p>DEBUG <br />";
+                echo"querysend är: ";
+                $querysend = "INSERT INTO comments (Playername, Name, Comment) VALUES ('$Playername', '$usermoresafename', '$moresafecomment')";
+                echo"<br />";
+                mysql_query($querysend) or die ("SQL-error: " . mysql_error(). " with query ". $sql);
+                echo"</p>";
+          } else {
+            echo "<br />";
+            print "Vänligen fyll i alla fält";
+          }
+        }
+
+        // Ta bort kommentar
+        if ($_POST['action'] == "Ta bort") {
+          $varCommentID = $_POST['CommentID'];
+          $querysend = "DELETE FROM comments WHERE CommentID='$varCommentID'";
+          mysql_query($querysend) or die ("SQL-error: " . mysql_error(). " with query ". $sql);
+          echo "Action är lika 'Ta bort'";
+          echo "<br />";
+          echo $querysend;
+          echo "<br />";
+          echo $_POST['CommentID'];
+        }
+
+      ?>
   </div>
 </div>
 </body>
