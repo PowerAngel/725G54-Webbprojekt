@@ -1,3 +1,46 @@
+/* OA MECKAR */
+ol, ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0; 
+}
+
+/* Player */
+/* Best Practice:;
+     Att göra indrag när klasser är beroende av föräldern
+*/
+.player {
+    border: 3px solid yellow;
+    margin-bottom: 1em;
+}
+.player__table {
+    width: 100%
+}
+    .player__table td {
+        border-collapse: collapse;
+        border: 1px solid red;
+    }
+.player__comment-wrapper {
+    border: 1px solid green;
+}
+    .player__form-comment {
+        border: 1px solid blue;
+    }
+        label {
+            display: block;
+            position: relative;
+        }
+        label > input {
+            left: 120px;
+            position: absolute;
+        }
+    .player__image {
+        float: right;
+    }
+/* /OA MECKAR */
+
+
+/* URSPRUNG */
 body{
 	background-color: #ddd;
 	font-family: Verdana, Arial, "MS Trebuchet", sans-serif;
