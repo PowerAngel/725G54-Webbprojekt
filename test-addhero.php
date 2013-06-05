@@ -9,7 +9,7 @@
 <head>
     <title>DotA 2 - Add Hero</title>
     <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
-  <link media="screen" rel="stylesheet" href="stylesheets/stylesheet.css"/>
+  <link media="screen" rel="stylesheet" href="stylesheets/test-stylesheet.css"/>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
   <script src="jquery.validate.js" type="text/javascript"></script>
